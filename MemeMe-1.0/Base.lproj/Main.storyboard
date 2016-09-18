@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,8 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AoP-6f-DC6"/>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="oe6-wi-W1L">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AoP-6f-DC6"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N5T-Em-hPv" userLabel="TopToolbar">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="jGp-2K-5Co"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem systemItem="action" id="3p4-75-YgP"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Wn5-bX-s5d"/>
+                                    <barButtonItem title="Cancel" id="ZxB-Db-hsl"/>
+                                </items>
+                            </toolbar>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="oe6-wi-W1L">
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vJU-1v-vDJ">
                                         <nil key="textColor"/>
@@ -34,18 +43,18 @@
                                     </textField>
                                 </subviews>
                             </stackView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rab-nG-grU">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rab-nG-grU" userLabel="BottomToolbar">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="s47-CS-b56"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Library" id="5yj-d8-oWK">
+                                    <barButtonItem image="Collection" id="5yj-d8-oWK">
                                         <connections>
                                             <action selector="pickAnImageFromAlbum:" destination="BYZ-38-t0r" id="9oE-Lg-SCB"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="VEq-88-b9M"/>
-                                    <barButtonItem title="Camera" id="mDa-1r-paI">
+                                    <barButtonItem systemItem="camera" id="mDa-1r-paI">
                                         <connections>
                                             <action selector="pickAnImageFromCamera:" destination="BYZ-38-t0r" id="ZFs-gO-ILP"/>
                                         </connections>
@@ -56,18 +65,22 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="oe6-wi-W1L" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3t2-G8-s7a"/>
-                            <constraint firstItem="rab-nG-grU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Cef-Sp-wFT"/>
+                            <constraint firstItem="rab-nG-grU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Cef-Sp-wFT"/>
+                            <constraint firstItem="N5T-Em-hPv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Msf-eO-LU8"/>
+                            <constraint firstAttribute="trailing" secondItem="N5T-Em-hPv" secondAttribute="trailing" id="Udi-LT-p2B"/>
                             <constraint firstItem="oe6-wi-W1L" firstAttribute="bottom" secondItem="rab-nG-grU" secondAttribute="top" id="caV-iQ-fWO"/>
                             <constraint firstItem="AoP-6f-DC6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="e8m-19-adM"/>
                             <constraint firstItem="AoP-6f-DC6" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="fBc-g6-rLs"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="rab-nG-grU" secondAttribute="bottom" id="i6T-Eg-xgO"/>
-                            <constraint firstItem="AoP-6f-DC6" firstAttribute="bottom" secondItem="rab-nG-grU" secondAttribute="top" id="mKX-Q0-3f0"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="rab-nG-grU" secondAttribute="trailing" id="pGz-5o-gyC"/>
-                            <constraint firstItem="AoP-6f-DC6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="sa7-GF-7Oo"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="AoP-6f-DC6" secondAttribute="bottom" id="kkx-SD-w0L"/>
+                            <constraint firstItem="N5T-Em-hPv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="krJ-i7-36r"/>
+                            <constraint firstAttribute="trailing" secondItem="rab-nG-grU" secondAttribute="trailing" id="pGz-5o-gyC"/>
+                            <constraint firstItem="AoP-6f-DC6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="sa7-GF-7Oo"/>
                             <constraint firstItem="oe6-wi-W1L" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="wfL-Qc-QZW"/>
-                            <constraint firstItem="oe6-wi-W1L" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="xxm-Kx-JKO"/>
+                            <constraint firstItem="oe6-wi-W1L" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xxm-Kx-JKO"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="bottomLabel" destination="Rhy-y4-tMu" id="dPV-kQ-esE"/>
                         <outlet property="cameraButton" destination="mDa-1r-paI" id="C10-iD-eFs"/>
@@ -78,6 +91,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="73.125" y="108.80281690140845"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Collection" width="30" height="30"/>
+    </resources>
 </document>

@@ -15,6 +15,31 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var topLabel: UITextField!
     @IBOutlet weak var bottomLabel: UITextField!
     
+    struct Meme {
+        var topText: String
+        var bottomText: String
+        var originalImage: UIImage
+        var memedImage: UIImage
+    }
+    
+    func save() {
+        _ = Meme(topText: topLabel.text!, bottomText: bottomLabel.text!, originalImage: generateMemedImage(), memedImage: generateMemedImage())
+    }
+    
+    func generateMemedImage() -> UIImage {
+        // Hide toolbar and navbar
+        
+        // Render view to an image
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        // Show toolbar and navbar
+        
+        return memedImage
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +47,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             NSStrokeColorAttributeName: UIColor.black,
             NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName: Float(2)
+            NSStrokeWidthAttributeName: Float(-3.0)
         ] as [String : Any]
 
         topLabel.delegate = self
