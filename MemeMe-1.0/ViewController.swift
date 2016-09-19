@@ -31,8 +31,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
         
         // Set up top/bottom text attributes
-        defineTextFieldAttributes(topLabel)
-        defineTextFieldAttributes(bottomLabel)
+        defineTextFieldAttributesOn(topLabel, attributes: memeTextAttributes)
+        defineTextFieldAttributesOn(bottomLabel, attributes: memeTextAttributes)
         
         // Set up initial UI state
         shareButton.isEnabled = false
@@ -40,25 +40,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bottomLabel.text = "BOTTOM"
     }
     
-    // Sets a TextField to have the lovely Impact(ish) formatting
-    func defineTextFieldAttributes(_ textField: UITextField) {
-        // Defines Impact(ish) font, white with a black outline, size 40
-        let memeTextAttributes = [
-            NSStrokeColorAttributeName: UIColor.black,
-            NSForegroundColorAttributeName: UIColor.white,
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName: Float(-3.0)
+    // Defines Impact(ish) font, white with a black outline, size 40
+    let memeTextAttributes = [
+        NSStrokeColorAttributeName: UIColor.black,
+        NSForegroundColorAttributeName: UIColor.white,
+        NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+        NSStrokeWidthAttributeName: Float(-3.0)
         ] as [String : Any]
-        
+    
+    // Sets a TextField to have the lovely Impact(ish) formatting
+    func defineTextFieldAttributesOn(_ textField: UITextField, attributes: [String : Any]) {
         textField.delegate = self
-        textField.defaultTextAttributes = memeTextAttributes
+        textField.defaultTextAttributes = attributes
         textField.textAlignment = NSTextAlignment.center
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.subscribeToKeyboardNotifications()
+        subscribeToKeyboardNotifications()
     
         // Set up app lifecycle UI state
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
@@ -72,7 +72,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.unsubscribeFromKeyboardNotifications()
+        unsubscribeFromKeyboardNotifications()
     }
     
     func unsubscribeFromKeyboardNotifications() {
@@ -95,7 +95,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             pickerController.sourceType = UIImagePickerControllerSourceType.camera
         }
         
-        self.present(pickerController, animated: true, completion: nil)
+        present(pickerController, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -107,13 +107,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             shareButton.isEnabled = true
             
             // Clean up the UI state
-            self.dismiss(animated: true, completion: nil)
+            dismiss(animated: true, completion: nil)
         }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Clean up the UI state
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -141,8 +141,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bottomToolbar.isHidden = true
         
         // Render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
         let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
@@ -158,14 +158,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func shareMeme(_ sender: AnyObject) {
         // Render the Meme
-        let memedImage = self.generateMemedImage()
+        let memedImage = generateMemedImage()
         
         // Load the Activity view
         let shareController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
         shareController.completionWithItemsHandler = { activity, success, items, error in
             if success {
                 // We know original image exists because share button wouldn't be active
-                save(
+                self.save(
                     topText: self.topLabel.text!,
                     bottomText: self.bottomLabel.text!,
                     originalImage: self.imagePickerView.image!,
@@ -174,7 +174,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
         
-        self.present(shareController, animated: true, completion: nil)
+        present(shareController, animated: true, completion: nil)
+    }
+    
+    // save takes in the information defining a Meme and saves it
+    func save(topText: String, bottomText: String, originalImage: UIImage, memedImage: UIImage) {
+        _ = Meme(
+            topText: topText,
+            bottomText: bottomText,
+            originalImage: originalImage,
+            memedImage: memedImage
+        )
     }
     
     
@@ -184,13 +194,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // This way, we don't obstruct the field we're editing
     func keyboardWillShow(_ notification: NSNotification) {
         if bottomLabel.isEditing {
-            self.view.frame.origin.y -= getKeyboardHeight(notification: notification)
+            view.frame.origin.y = -getKeyboardHeight(notification: notification)
         }
     }
     
     // Every time the keyboard hides, reset the view position
     func keyboardWillHide(_ notification: NSNotification) {
-        self.view.frame.origin.y = 0
+        view.frame.origin.y = 0
     }
     
     // Calculates the height of the keyboard for the current device
