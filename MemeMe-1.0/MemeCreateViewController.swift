@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MemeCreateViewController.swift
 //  MemeMe-1.0
 //
 //  Created by Jacob Marttinen on 9/17/16.
@@ -8,9 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    
-    var memes: [Meme]!
+class MemeCreateViewController: UIViewController {
     
     // MARK: Outlets
     
@@ -29,10 +27,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // In the sent memes table and collection view controllers
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        memes = appDelegate.memes
+        
+        self.tabBarController?.tabBar.isHidden = true
         
         // Set up top/bottom text attributes
         defineTextFieldAttributesOn(topLabel, attributes: memeTextAttributes)
@@ -85,6 +81,8 @@ class ViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
         
         unsubscribeFromKeyboardNotifications()
     }
@@ -179,6 +177,10 @@ class ViewController: UIViewController {
         // Add it to the memes array on the Application Delegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.memes.append(meme)
+        
+        if let navigationController = self.navigationController {
+            navigationController.popToRootViewController(animated: true)
+        }
     }
     
     // MARK: Keyboard visibility
@@ -206,7 +208,7 @@ class ViewController: UIViewController {
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
-extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension MemeCreateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String: Any]
@@ -231,7 +233,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 
 // MARK: - UITextFieldDelegate
 
-extension ViewController: UITextFieldDelegate {
+extension MemeCreateViewController: UITextFieldDelegate {
     // Clear the text fields if they contain only default text
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if (textField == topLabel && textField.text == "TOP") ||
