@@ -31,16 +31,16 @@ class MemeCollectionViewController: UICollectionViewController {
         appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         // Set up the Navigation bar
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: UIBarButtonSystemItem.add,
             target: self,
             action: #selector(MemeTableViewController.create)
         )
-        self.navigationItem.title = "Sent Memes"
+        navigationItem.title = "Sent Memes"
         
         // Set up the Collection View Flow Layout
         let space: CGFloat = 3.0
-        let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
+        let dimension = (view.frame.size.width - (2 * space)) / 3.0
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
@@ -48,10 +48,10 @@ class MemeCollectionViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
         
         memes = appDelegate.memes
-        self.collectionView!.reloadData()
+        collectionView!.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -67,7 +67,7 @@ class MemeCollectionViewController: UICollectionViewController {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return self.memes.count
+        return memes.count
     }
     
     override func collectionView(
@@ -78,7 +78,7 @@ class MemeCollectionViewController: UICollectionViewController {
             withReuseIdentifier: "MemeCollectionViewCell",
             for: indexPath
         ) as! MemeCollectionViewCell
-        let meme = self.memes[(indexPath as NSIndexPath).row]
+        let meme = memes[(indexPath as NSIndexPath).row]
 
         cell.memeImageView?.image = meme.memedImage
         
@@ -89,11 +89,11 @@ class MemeCollectionViewController: UICollectionViewController {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath:IndexPath
     ) {
-        let detailController = self.storyboard!.instantiateViewController(
+        let detailController = storyboard!.instantiateViewController(
             withIdentifier: "MemeDetailViewController"
         ) as! MemeDetailViewController
-        detailController.meme = self.memes[(indexPath as NSIndexPath).row]
-        self.navigationController!.pushViewController(detailController, animated: true)
+        detailController.meme = memes[(indexPath as NSIndexPath).row]
+        navigationController!.pushViewController(detailController, animated: true)
     }
     
     
@@ -101,9 +101,9 @@ class MemeCollectionViewController: UICollectionViewController {
     
     // Displays the Create View
     func create() {
-        let memeCreateVC = self.storyboard!.instantiateViewController(
+        let memeCreateVC = storyboard!.instantiateViewController(
             withIdentifier: "MemeCreateViewController"
         )
-        self.present(memeCreateVC, animated: true, completion: nil)
+        present(memeCreateVC, animated: true, completion: nil)
     }
 }

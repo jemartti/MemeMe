@@ -26,21 +26,21 @@ class MemeTableViewController: UITableViewController {
         appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         // Set up the Navigation bar
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: UIBarButtonSystemItem.add,
             target: self,
             action: #selector(MemeTableViewController.create)
         )
-        self.navigationItem.title = "Sent Memes"
+        navigationItem.title = "Sent Memes"
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
         
         // Load the memes data from the global context
         memes = appDelegate.memes
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -56,7 +56,7 @@ class MemeTableViewController: UITableViewController {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return self.memes.count
+        return memes.count
     }
     
     override func tableView(
@@ -66,7 +66,7 @@ class MemeTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "MemeTableViewCell"
         )!
-        let meme = self.memes[(indexPath as NSIndexPath).row]
+        let meme = memes[(indexPath as NSIndexPath).row]
         
         // Set the name and image
         cell.textLabel?.text = meme.topText + "…" + meme.bottomText
@@ -79,11 +79,11 @@ class MemeTableViewController: UITableViewController {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        let detailController = self.storyboard!.instantiateViewController(
+        let detailController = storyboard!.instantiateViewController(
             withIdentifier: "MemeDetailViewController"
         ) as! MemeDetailViewController
-        detailController.meme = self.memes[(indexPath as NSIndexPath).row]
-        self.navigationController!.pushViewController(detailController, animated: true)
+        detailController.meme = memes[(indexPath as NSIndexPath).row]
+        navigationController!.pushViewController(detailController, animated: true)
     }
     
     
@@ -91,9 +91,9 @@ class MemeTableViewController: UITableViewController {
     
     // Displays the Create View
     func create() {
-        let memeCreateVC = self.storyboard!.instantiateViewController(
+        let memeCreateVC = storyboard!.instantiateViewController(
             withIdentifier: "MemeCreateViewController"
         )
-        self.present(memeCreateVC, animated: true, completion: nil)
+        present(memeCreateVC, animated: true, completion: nil)
     }
 }

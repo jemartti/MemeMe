@@ -45,7 +45,7 @@ class MemeCreateViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
         
         subscribeToKeyboardNotifications()
         
@@ -57,7 +57,7 @@ class MemeCreateViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
         
         unsubscribeFromKeyboardNotifications()
     }
@@ -201,7 +201,7 @@ class MemeCreateViewController: UIViewController {
     
     // returnToRoot returns to the Sent Memes view
     func returnToRoot() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     
