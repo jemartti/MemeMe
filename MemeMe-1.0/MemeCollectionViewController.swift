@@ -27,6 +27,8 @@ class MemeCollectionViewController: UICollectionViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         memes = appDelegate.memes
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New", style: UIBarButtonItemStyle.plain, target: self, action: #selector(MemeCollectionViewController.create))
+        
         let space: CGFloat = 3.0
         let itemWidth = (self.view.frame.size.width - (2 * space)) / 3.0
         //let itemHeight = (self.view.frame.size.height - (2 * space)) / 3.0
@@ -60,5 +62,10 @@ class MemeCollectionViewController: UICollectionViewController {
         let detailController = self.storyboard!.instantiateViewController(withIdentifier: "MemeDetailViewController") as! MemeDetailViewController
         detailController.meme = self.memes[(indexPath as NSIndexPath).row]
         self.navigationController!.pushViewController(detailController, animated: true)
+    }
+    
+    func create() {
+        let memeCreateVC = self.storyboard!.instantiateViewController(withIdentifier: "MemeCreateViewController")as! MemeCreateViewController
+        self.present(memeCreateVC, animated: true, completion: nil)
     }
 }

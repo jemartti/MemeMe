@@ -18,6 +18,7 @@ class MemeCreateViewController: UIViewController {
     
     @IBOutlet weak var topToolbar: UIToolbar!
     @IBOutlet weak var shareButton: UIBarButtonItem!
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
     
     @IBOutlet weak var bottomToolbar: UIToolbar!
     @IBOutlet weak var cameraRollButton: UIBarButtonItem!
@@ -36,6 +37,7 @@ class MemeCreateViewController: UIViewController {
         
         // Set up initial UI state
         shareButton.isEnabled = false
+        cancelButton.isEnabled = true
         topLabel.text = "TOP"
         bottomLabel.text = "BOTTOM"
     }
@@ -137,7 +139,7 @@ class MemeCreateViewController: UIViewController {
         return memedImage
     }
     
-    // MARK: Share: Actions
+    // MARK: Share: Actions	
     
     @IBAction func shareMeme(_ sender: AnyObject) {
         // Render the Meme
@@ -160,6 +162,15 @@ class MemeCreateViewController: UIViewController {
         present(shareController, animated: true, completion: nil)
     }
     
+    @IBAction func cancel(_ sender: Any) {
+        returnToRoot()
+    }
+    
+    func returnToRoot() {
+        let rootVC = self.storyboard!.instantiateViewController(withIdentifier: "MemeTabBarController")
+        self.present(rootVC, animated: true, completion: nil)
+    }
+    
     // save takes in the information defining a Meme and saves it
     func save(
         topText: String,
@@ -178,9 +189,7 @@ class MemeCreateViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.memes.append(meme)
         
-        if let navigationController = self.navigationController {
-            navigationController.popToRootViewController(animated: true)
-        }
+        returnToRoot()
     }
     
     // MARK: Keyboard visibility

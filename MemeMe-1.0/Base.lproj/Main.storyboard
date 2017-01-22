@@ -30,7 +30,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Bxk-0U-XAK">
             <objects>
-                <tabBarController id="VO7-e0-pIX" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MemeTabBarController" id="VO7-e0-pIX" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="cJh-Bf-jW2"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="TG1-ob-1QC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -66,7 +66,7 @@
         <!--Meme Collection View Controller Scene-->
         <scene sceneID="DLq-ca-fVu">
             <objects>
-                <collectionViewController id="F6b-br-iJd" userLabel="Meme Collection View Controller Scene" customClass="MemeCollectionViewController" customModule="MemeMe_1_0" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="MemeCollectionViewController" id="F6b-br-iJd" userLabel="Meme Collection View Controller Scene" customClass="MemeCollectionViewController" customModule="MemeMe_1_0" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="oEl-EB-bMp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -118,7 +118,7 @@
         <!--Meme Table View Controller Scene-->
         <scene sceneID="JtR-7y-cHb">
             <objects>
-                <tableViewController id="RzU-0b-uoX" userLabel="Meme Table View Controller Scene" customClass="MemeTableViewController" customModule="MemeMe_1_0" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MemeTableViewController" id="RzU-0b-uoX" userLabel="Meme Table View Controller Scene" customClass="MemeTableViewController" customModule="MemeMe_1_0" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="YP5-cg-InM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -203,6 +203,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Wn5-bX-s5d"/>
+                                    <barButtonItem title="Cancel" id="Zbi-AK-mvN">
+                                        <connections>
+                                            <action selector="cancel:" destination="BYZ-38-t0r" id="CBn-BE-Rf2"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="75" translatesAutoresizingMaskIntoConstraints="NO" id="oe6-wi-W1L">
@@ -266,6 +271,7 @@
                         <outlet property="bottomToolbar" destination="rab-nG-grU" id="QT6-Na-UGF"/>
                         <outlet property="cameraButton" destination="mDa-1r-paI" id="C10-iD-eFs"/>
                         <outlet property="cameraRollButton" destination="5yj-d8-oWK" id="ygZ-9k-6P3"/>
+                        <outlet property="cancelButton" destination="Zbi-AK-mvN" id="rsK-z3-5MM"/>
                         <outlet property="imagePickerView" destination="AoP-6f-DC6" id="ZH7-DC-krq"/>
                         <outlet property="shareButton" destination="3p4-75-YgP" id="ojT-EB-mvf"/>
                         <outlet property="topLabel" destination="vJU-1v-vDJ" id="5hg-IO-YSt"/>

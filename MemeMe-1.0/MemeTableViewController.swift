@@ -46,11 +46,6 @@ class MemeTableViewController: UITableViewController {
         cell.textLabel?.text = meme.topText
         cell.imageView?.image = meme.memedImage
         
-        // If the cell has a detail label, we will put the evil scheme in.
-//        if let detailTextLabel = cell.detailTextLabel {
-//            detailTextLabel.text = "Scheme: \(villain.evilScheme)"
-//        }
-        
         return cell
     }
     
@@ -62,6 +57,6 @@ class MemeTableViewController: UITableViewController {
     
     func create() {
         let memeCreateVC = self.storyboard!.instantiateViewController(withIdentifier: "MemeCreateViewController")as! MemeCreateViewController
-        self.navigationController!.pushViewController(memeCreateVC, animated: true)
+        self.present(memeCreateVC, animated: true, completion: nil)
     }
 }
