@@ -8,7 +8,8 @@
 
 import UIKit
 
-// Defines a Meme object state
+// MARK: - Meme
+
 struct Meme {
   var topText: String
   var bottomText: String

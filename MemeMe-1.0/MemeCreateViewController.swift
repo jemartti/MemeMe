@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - MemeCreateViewController: UIViewController
+
 class MemeCreateViewController: UIViewController {
     
     // MARK: Outlets
@@ -24,12 +26,11 @@ class MemeCreateViewController: UIViewController {
     @IBOutlet weak var cameraRollButton: UIBarButtonItem!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     
-    // MARK: ViewController setup
+    
+    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.tabBarController?.tabBar.isHidden = true
         
         // Set up top/bottom text attributes
         defineTextFieldAttributesOn(topLabel, attributes: memeTextAttributes)
@@ -42,28 +43,41 @@ class MemeCreateViewController: UIViewController {
         bottomLabel.text = "BOTTOM"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+        
+        subscribeToKeyboardNotifications()
+        
+        // Set up app life cycle UI state
+        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(
+            UIImagePickerControllerSourceType.camera
+        )
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        
+        unsubscribeFromKeyboardNotifications()
+    }
+    
+    
+    // MARK: Life Cycle Supporting Functions
+    
     // Defines Impact(ish) font, white with a black outline, size 40
     let memeTextAttributes = [
         NSStrokeColorAttributeName: UIColor.black,
         NSForegroundColorAttributeName: UIColor.white,
         NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
         NSStrokeWidthAttributeName: Float(-3.0)
-        ] as [String: Any]
+    ] as [String: Any]
     
     // Sets a TextField to have the lovely Impact(ish) formatting
     func defineTextFieldAttributesOn(_ textField: UITextField, attributes: [String: Any]) {
         textField.delegate = self
         textField.defaultTextAttributes = attributes
         textField.textAlignment = NSTextAlignment.center
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        subscribeToKeyboardNotifications()
-        
-        // Set up app lifecycle UI state
-        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
     }
     
     func subscribeToKeyboardNotifications() {
@@ -81,14 +95,6 @@ class MemeCreateViewController: UIViewController {
         )
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        self.tabBarController?.tabBar.isHidden = false
-        
-        unsubscribeFromKeyboardNotifications()
-    }
-    
     func unsubscribeFromKeyboardNotifications() {
         NotificationCenter.default.removeObserver(
             self,
@@ -101,6 +107,7 @@ class MemeCreateViewController: UIViewController {
             object: nil
         )
     }
+    
     
     // MARK: Image Picker: Actions
     
@@ -118,6 +125,7 @@ class MemeCreateViewController: UIViewController {
         
         present(pickerController, animated: true, completion: nil)
     }
+    
     
     // MARK: Meme: UI Actions
     
@@ -139,6 +147,7 @@ class MemeCreateViewController: UIViewController {
         return memedImage
     }
     
+    
     // MARK: Share: Actions	
     
     @IBAction func shareMeme(_ sender: AnyObject) {
@@ -146,7 +155,10 @@ class MemeCreateViewController: UIViewController {
         let memedImage = generateMemedImage()
         
         // Load the Activity view
-        let shareController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
+        let shareController = UIActivityViewController(
+            activityItems: [memedImage],
+            applicationActivities: nil
+        )
         shareController.completionWithItemsHandler = { activity, success, items, error in
             if success {
                 // We know original image exists because share button wouldn't be active
@@ -166,18 +178,13 @@ class MemeCreateViewController: UIViewController {
         returnToRoot()
     }
     
-    func returnToRoot() {
-        let rootVC = self.storyboard!.instantiateViewController(withIdentifier: "MemeTabBarController")
-        self.present(rootVC, animated: true, completion: nil)
-    }
-    
     // save takes in the information defining a Meme and saves it
     func save(
         topText: String,
         bottomText: String,
         originalImage: UIImage,
         memedImage: UIImage
-        ) {
+    ) {
         let meme = Meme(
             topText: topText,
             bottomText: bottomText,
@@ -191,6 +198,12 @@ class MemeCreateViewController: UIViewController {
         
         returnToRoot()
     }
+    
+    // returnToRoot returns to the Sent Memes view
+    func returnToRoot() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     // MARK: Keyboard visibility
     
@@ -215,13 +228,14 @@ class MemeCreateViewController: UIViewController {
     }
 }
 
-// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
+// MARK: - MemeCreateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
 extension MemeCreateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String: Any]
-        ) {
+    ) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             // If we were given a valid image, display it
             imagePickerView.image = image
@@ -240,13 +254,14 @@ extension MemeCreateViewController: UIImagePickerControllerDelegate, UINavigatio
     }
 }
 
-// MARK: - UITextFieldDelegate
+
+// MARK: - MemeCreateViewController: UITextFieldDelegate
 
 extension MemeCreateViewController: UITextFieldDelegate {
-    // Clear the text fields if they contain only default text
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        // Clear the text fields if they contain only default text
         if (textField == topLabel && textField.text == "TOP") ||
-            (textField == bottomLabel && textField.text == "BOTTOM") {
+           (textField == bottomLabel && textField.text == "BOTTOM") {
             textField.text = ""
         }
     }
